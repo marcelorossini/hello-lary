@@ -1,0 +1,232 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            @font-face {
+                font-family: Skia Regular;
+                src: url(skia-regular.ttf); 
+            }     
+            * {
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+            }
+            body {                
+                background-image: url("./img/background.jpg");
+                background-size: cover;
+            }
+            header {
+                padding: 20px;
+            }
+            .container {
+                padding: 60px 0 20px 0;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .card {
+                width: 100%;                
+                font-family: GelPenUprightLight;
+                border: 6px solid #ba8a53;
+                border-radius: 15px;
+                color: #d3bdad;
+                background: rgba(63, 63, 63, 0.3);
+                -webkit-box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);
+                -moz-box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);
+                box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);                
+            }
+            .card strong {
+                font-size: 1.6em;
+            }
+            .card  p {
+                font-size: 1.2em;
+            }            
+            .lary {
+                display: flex;
+            }
+            .lary > div {
+                padding: 10px;
+            }            
+            .lary img {
+                width: 120px;
+                height: 120px;
+                border-radius: 15px;
+                border: 6px solid #ba8a53;
+                -webkit-box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);
+                -moz-box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);
+                box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);                     
+            }     
+            main {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }       
+            .add {
+                display: grid;
+                justify-items: center;
+                align-items: center;  
+                cursor: pointer;              
+            }  
+            .add:hover {
+                background: #ba8a5385;
+            }              
+            .add > button {
+                background: none;
+                border: 0;
+                color: #d3bdad;
+            }
+            .add > button > i {
+                font-size: 5em;
+                display: block;
+            }      
+            .add > button > h2 {
+                padding-top: 20px;
+                font-size: 2em;
+            }                    
+            .hero {
+                padding: 10px;
+            }
+            .hero input {
+                width: 100%;
+                border: 0px;
+                background: none;
+                color: #d3bdad;
+                font-family: inherit; 
+            }      
+            .hero input.active {
+                border-bottom: 1px solid #d3bdad23;
+            }                          
+            .hero > .header {
+                display: grid;
+                grid-template-columns: 1fr 80px;            
+            }                 
+            .hero > .header > div:nth-child(2) {
+		        grid-row: span 2;
+                text-align: center;
+            }     
+            .hero > .header img {
+                height: 100%;
+            }
+            .hero > .header input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #d3bdad4d;
+            }
+            .hero > .header [name=nome] {
+                font-size: 1.6em;
+            }
+                                             
+            .hero > .data {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+		        grid-template-rows:  repeat(4, 1fr);     
+                padding-top: 10px;           
+            }  
+            .hero > .data > div {
+                display: flex;
+                white-space: nowrap;
+            }   
+            .hero > .data i {
+                font-size: .8em;
+                margin-right: 6px;
+                transform: rotate(45deg);
+            }                           
+            .hero > .data > div:nth-child(1) {
+                grid-column: col / span 3;
+		        grid-row: row 1;
+            }     
+            .hero > .data > div:nth-child(2) {
+                grid-column: col;
+		        grid-row: row 2;
+            }     
+            .hero > .data > div:nth-child(3) {
+                grid-column: col 2;
+		        grid-row: row 2;
+            }    
+            .hero > .data > div:nth-child(4) {
+                grid-column: col 3 ;
+		        grid-row: row 2;
+            }                                                   
+            .hero > .data > div:nth-child(5) {
+                grid-column: col / span 3;
+		        grid-row: row 3;
+            }                  
+            .hero > .data > div:nth-child(6) {
+                grid-column: col / span 3;
+		        grid-row: row 4;
+            }                             
+            .hero > .data input {
+                margin: 0 8px 0 2px;
+                height: 22px;                
+                font-size: .9em;
+            }   
+            .hero > .actions {
+                display: flex;
+                justify-content: flex-end;
+                padding-top: 4px;
+            }
+            .hero > .actions > button {                
+                width: 40px;
+                height: 40px;
+                margin: 4px;
+                font-size: 1.4em;
+                background: #ba8a5385;
+                border: 0;
+                border-radius: 10px;
+                color: #d3bdad;
+                cursor: pointer;
+            }     
+
+            @media (max-width: 600px) 
+            {
+                main {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+        <script src="https://kit.fontawesome.com/23b7f2f41b.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <header class="container">
+            <div class="card lary">
+                <div>
+                    <img src="./img/heroes/lary/lary.jpg">
+                </div>
+                <div>
+                    <strong>Olá, meu nome é Lary!</strong>
+                    <p>
+                        Aqui você consegue adicionar, visualizar, editar e excluir os heróis do nosso clã!
+                    </p>                
+                </div>                
+            </div> 
+        </header>       
+
+        <main class="container">
+            <div class="card add">
+                <button>
+                    <i class="fas fa-plus"></i>
+                    <h2>Adicionar</h2>
+                </button>
+            </div> 
+
+            <div class="card hero">
+                <div class="header">
+                    <div><input type="text" name="nome" placeholder="Nome" class="active"></div>
+                    <div><img src="./img/heroes/steven/4.gif" alt="<i class='fas fa-upload'></i>"></div>
+                    <div><input type="text" name="tipo" placeholder="Tipo" class="active"></div>                    
+                </div>
+                <div class="data">
+                    <div><b><i class="fas fa-square"> </i>Especialidade:</b><input type="text" name="especialidade" class="active"></div>                   
+                    <div><b><i class="fas fa-square"> </i>Vida:</b><input type="text" name="vida" class="active"></div>
+                    <div><b><i class="fas fa-square"> </i>Defesa:</b><input type="text" name="defesa" class="active"></div>
+                    <div><b><i class="fas fa-square"> </i>Dano:</b><input type="text" name="dano" class="active"></div>
+                    <div><b><i class="fas fa-square"> </i>Velocidade de ataque:</b><input type="text" name="velocidade_ataque" class="active"></div>
+                    <div><b><i class="fas fa-square"> </i>Velocidade de movimento:</b><input type="text" name="velocidade_movimento" class="active"></div>
+                </div>
+                <div class="actions">
+                    <button><i class="fas fa-edit"></i></button>
+                    <button><i class="fas fa-trash-alt"></i></button>
+                    <button><i class="fas fa-check"></i></button>
+                </div>
+            </div>             
+        </main>             
+        
+    </body>
+</html>
