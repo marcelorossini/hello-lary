@@ -55,30 +55,30 @@
                 -moz-box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);
                 box-shadow: 0px 0px 89px -19px rgba(0,0,0,0.75);                     
             }     
-            main {
+            main > div {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
-            }       
-            .add {
+            }                   
+            .add > button { 
                 display: grid;
+                width: 100%;
+                height: 100%;                
                 justify-items: center;
-                align-items: center;  
-                cursor: pointer;              
-            }  
-            .add:hover {
-                background: #ba8a5385;
-            }              
-            .add > button {
+                align-items: center;                  
                 background: none;
                 border: 0;
                 color: #d3bdad;
-            }
-            .add > button > i {
-                font-size: 5em;
                 display: block;
+                cursor: pointer;
+            }
+            .add > button:hover  { 
+                background: #ba8a5385;
+            }
+            .add i {
+                font-size: 5em;
             }      
-            .add > button > h2 {
+            .add h2 {
                 padding-top: 20px;
                 font-size: 2em;
             }                    
@@ -91,9 +91,13 @@
                 background: none;
                 color: #d3bdad;
                 font-family: inherit; 
-            }      
-            .hero input.active {
+            }     
+            .hero input {
+                pointer-events: none;
+            }                            
+            .hero.active input {
                 border-bottom: 1px solid #d3bdad23;
+                pointer-events: auto;
             }                          
             .hero > .header {
                 display: grid;
@@ -123,6 +127,9 @@
                 display: flex;
                 white-space: nowrap;
             }   
+            .hero > .data > div {
+                font-weight: bold;
+            }
             .hero > .data i {
                 font-size: .8em;
                 margin-right: 6px;
@@ -198,35 +205,112 @@
             </div> 
         </header>       
 
-        <main class="container">
-            <div class="card add">
-                <button>
-                    <i class="fas fa-plus"></i>
-                    <h2>Adicionar</h2>
-                </button>
-            </div> 
+        <main class="container">          
+        </main>  
 
-            <div class="card hero">
-                <div class="header">
-                    <div><input type="text" name="nome" placeholder="Nome" class="active"></div>
-                    <div><img src="./img/heroes/steven/4.gif" alt="<i class='fas fa-upload'></i>"></div>
-                    <div><input type="text" name="tipo" placeholder="Tipo" class="active"></div>                    
-                </div>
-                <div class="data">
-                    <div><b><i class="fas fa-square"> </i>Especialidade:</b><input type="text" name="especialidade" class="active"></div>                   
-                    <div><b><i class="fas fa-square"> </i>Vida:</b><input type="text" name="vida" class="active"></div>
-                    <div><b><i class="fas fa-square"> </i>Defesa:</b><input type="text" name="defesa" class="active"></div>
-                    <div><b><i class="fas fa-square"> </i>Dano:</b><input type="text" name="dano" class="active"></div>
-                    <div><b><i class="fas fa-square"> </i>Velocidade de ataque:</b><input type="text" name="velocidade_ataque" class="active"></div>
-                    <div><b><i class="fas fa-square"> </i>Velocidade de movimento:</b><input type="text" name="velocidade_movimento" class="active"></div>
-                </div>
-                <div class="actions">
-                    <button><i class="fas fa-edit"></i></button>
-                    <button><i class="fas fa-trash-alt"></i></button>
-                    <button><i class="fas fa-check"></i></button>
-                </div>
-            </div>             
-        </main>             
-        
+->
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>                   
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script type="text/babel">
+            // Main
+            const Main = (props) => {
+                const [heroes, setHeroes] = React.useState([]);
+
+                async function refreshHeroes() {
+                    const heroes = await axios.get('/api/index');
+                    setHeroes(heroes.data);
+                    console.log(heroes);
+                };
+
+                React.useEffect(() => {
+                    refreshHeroes();                                        
+                },[]);
+
+                return (
+                    <div>
+                        <AddCard refreshHeroes={refreshHeroes} />
+                        {heroes.map((hero,i) => (
+                            <HeroCard key={i} refreshHeroes={refreshHeroes} cardState="edit" json={hero} />
+                        ))}
+                    </div>
+                )
+            }            
+
+            // Adicionar 
+            const AddCard = (props) => {
+                const handleAdd = () => {
+                    
+                }
+
+                return (
+                    <div className="card add">
+                        <button onClick={handleAdd}>
+                            <div>
+                                <i className="fas fa-plus"></i>
+                                <h2>Adicionar</h2>                    
+                            </div>                    
+                        </button>
+                    </div>                        
+                )
+            }
+            
+            // Dados do heroi
+            const HeroCard = (props) => {
+                const [cardState, setCardState] = React.useState(props.cardState);
+                
+                const { nome , tipo, especialidade, vida, defesa, dano, velocidade_ataque, velocidade_movimento } = props.json || {};
+                
+                const handleEdit = () => {           
+                    setCardState('edit');
+                }
+
+                const handleDelete = () => {           
+                    props.refreshHeroes();
+                }                
+
+                const handleSave = () => {           
+                    setCardState('');
+                    props.refreshHeroes();
+                }    
+
+                return (
+                    <div className={"card hero " + (cardState == 'edit' ? 'active' : '')}>                        
+                        <div className="header">
+                            <div><input type="text" name="nome" placeholder="Nome" defaultValue={nome} /></div>
+                            <div><img src="./img/heroes/steven/4.gif" alt="" /></div>
+                            <div><input type="text" name="tipo" placeholder="Tipo" defaultValue={tipo} /></div>                    
+                        </div>
+                        <div className="data">
+                            <div><span><i className="fas fa-square"> </i>Especialidade:</span><input type="text" name="especialidade" defaultValue={especialidade} /></div>                   
+                            <div><span><i className="fas fa-square"> </i>Vida:</span><input type="text" name="vida" defaultValue={vida} /></div>
+                            <div><span><i className="fas fa-square"> </i>Defesa:</span><input type="text" name="defesa" defaultValue={defesa} /></div>
+                            <div><span><i className="fas fa-square"> </i>Dano:</span><input type="text" name="dano" defaultValue={dano} /></div>
+                            <div><span><i className="fas fa-square"> </i>Velocidade de ataque:</span><input type="text" name="velocidade_ataque" defaultValue={velocidade_ataque} /></div>
+                            <div><span><i className="fas fa-square"> </i>Velocidade de movimento:</span><input type="text" name="velocidade_movimento" defaultValue={velocidade_movimento} /></div>
+                        </div>
+                        { cardState == 'edit' 
+                            ? (
+                                <div className="actions">
+                                    <button className="btn-save" onClick={handleSave}><i className="fas fa-check"></i></button>
+                                </div>
+                            )                                
+                            :(
+                                <div className="actions">
+                                    <button className="btn-edit" onClick={handleEdit}><i className="fas fa-edit"></i></button>
+                                    <button className="btn-delete" onClick={handleDelete}><i className="fas fa-trash-alt"></i></button>                   
+                                </div>
+                            )             
+                        }
+                    </div>   
+                )                
+            }
+            
+            // Renderiza
+            ReactDOM.render(        
+                <Main />
+            ,document.querySelector('main'));
+        </script>    
     </body>
 </html>
