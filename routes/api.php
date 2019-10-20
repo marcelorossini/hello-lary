@@ -13,13 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+// Api dos herois
 Route::prefix('heroes')->group(function () {
+    // Exibe todos os herois
     Route::get('','HeroesController@index');   
-    Route::put('{id?}','HeroesController@store');    
+    // Grava ou atualiza o heroi
+    Route::post('{id?}','HeroesController@store');    
+    // Exclui o heroi
     Route::delete('{id}','HeroesController@delete');    
 });
 
