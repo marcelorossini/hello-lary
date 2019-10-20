@@ -12,11 +12,19 @@ class HeroesController extends Controller
         return response()->json($heroes);
     }
 
-    public function create() {
-        $teste = new Hero;
-        $teste->nome = 'teste';
-        $teste->tipo = 'teste';
-        $teste->save();
-        return 'bla';
+    public function store(Request $request, $id = null) {
+        $hero = null;
+        if (is_null($id)) {
+            $hero = Hero::create($request->all());
+        } else {
+            $hero = Hero::find($id)->update($request->all());
+        }
+        return 'bla';   
+    }    
+
+    public function delete(Request $request, $id) {
+        $hero = Hero::find($id);
+        $hero->delete();
+        return response()->json($hero);
     }    
 }

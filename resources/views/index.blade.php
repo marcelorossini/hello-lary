@@ -60,6 +60,9 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
             }                   
+            .add {
+                height: 228px;
+            }
             .add > button { 
                 display: grid;
                 width: 100%;
@@ -165,14 +168,14 @@
                 font-size: .9em;
             }   
             .hero > .actions {
-                display: flex;
-                justify-content: flex-end;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;         
                 padding-top: 4px;
             }
             .hero > .actions > button {                
-                width: 40px;
+                width: 100%;
                 height: 40px;
-                margin: 4px;
                 font-size: 1.4em;
                 background: #ba8a5385;
                 border: 0;
@@ -216,23 +219,25 @@
         <script type="text/babel">
             // Main
             const Main = (props) => {
+                // Guarda lista com os herois
                 const [heroes, setHeroes] = React.useState([]);
 
-                async function refreshHeroes() {
-                    const heroes = await axios.get('/api/index');
-                    setHeroes(heroes.data);
-                    console.log(heroes);
-                };
-
+                // Ao abrir atualiza herois
                 React.useEffect(() => {
                     refreshHeroes();                                        
-                },[]);
+                },[]);                
+
+                // Atualiza os cards de herois
+                async function refreshHeroes() {
+                    const heroes = await axios.get('/api/heroes');
+                    setHeroes(heroes.data);
+                };
 
                 return (
                     <div>
                         <AddCard refreshHeroes={refreshHeroes} />
                         {heroes.map((hero,i) => (
-                            <HeroCard key={i} refreshHeroes={refreshHeroes} cardState="edit" json={hero} />
+                            <HeroCard key={i} json={hero} refreshHeroes={refreshHeroes} />
                         ))}
                     </div>
                 )
@@ -258,25 +263,42 @@
             
             // Dados do heroi
             const HeroCard = (props) => {
+                // Estado do form, vazio = default, edit = edição
                 const [cardState, setCardState] = React.useState(props.cardState);
                 
-                const { nome , tipo, especialidade, vida, defesa, dano, velocidade_ataque, velocidade_movimento } = props.json || {};
+                // Pega dados do json
+                const { id, nome , tipo, especialidade, vida, defesa, dano, velocidade_ataque, velocidade_movimento } = props.json || {};
                 
+                // Ação do botão editar
                 const handleEdit = () => {           
                     setCardState('edit');
                 }
 
-                const handleDelete = () => {           
+                // Ação do botão delete
+                const handleDelete = async () => {   
+                    await axios.delete(`/api/heroes/${id}`);
                     props.refreshHeroes();
                 }                
 
-                const handleSave = () => {           
+                // Ação do botão Salvar
+                const handleSave = async () => {      
+                    // Pega todos os inputs da tela e guarda em um objeto
+                    const inputs = document.querySelectorAll('.hero input');         
+                    let data = {};
+                    for (let input of inputs) {
+                        data[input.name] = input.value;
+                    }                    
+                    // Envia para o laravel
+                    await axios.put(`/api/heroes/${id}`,data);
+                    // Volta para o stado padrão do card
                     setCardState('');
+                    // Atualiza lista
                     props.refreshHeroes();
                 }    
 
                 return (
-                    <div className={"card hero " + (cardState == 'edit' ? 'active' : '')}>                        
+                    <div className={"card hero " + (cardState == 'edit' ? 'active' : '')}>  
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" /> 
                         <div className="header">
                             <div><input type="text" name="nome" placeholder="Nome" defaultValue={nome} /></div>
                             <div><img src="./img/heroes/steven/4.gif" alt="" /></div>

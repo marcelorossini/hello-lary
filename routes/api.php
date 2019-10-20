@@ -17,6 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('create','HeroesController@create');
+Route::prefix('heroes')->group(function () {
+    Route::get('','HeroesController@index');   
+    Route::put('{id?}','HeroesController@store');    
+    Route::delete('{id}','HeroesController@delete');    
+});
 
-Route::get('index','HeroesController@index');
