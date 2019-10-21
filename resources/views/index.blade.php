@@ -2,6 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="stylesheet" type="text/css" href="./css/font-awesome/css/all.min.css">
         <style>
             @font-face {
                 font-family: 'GelPenUprightLight';
@@ -205,7 +206,6 @@
                 }
             }
         </style>
-        <script src="https://kit.fontawesome.com/23b7f2f41b.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <header class="container">
@@ -228,10 +228,10 @@
         <main class="container">          
         </main>  
 
-        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>                   
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="./js/react.production.min.js"></script>
+        <script src="./js/react-dom.production.min.js"></script>                   
+        <script src="./js/babel.min.js"></script>
+        <script src="./js/axios.min.js"></script>
         <script type="text/babel">
             // Main
             const Main = (props) => {
