@@ -107,7 +107,15 @@
             .hero.active input {
                 border-bottom: 1px solid #d3bdad23;
                 pointer-events: auto;
-            }                                 
+            }          
+            .hero input::-webkit-outer-spin-button,
+            .hero input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0; 
+            }
+            .hero input[type=number] {
+                -moz-appearance:textfield; /* Firefox */
+            }                                   
             .hero .header {
                 display: grid;
                 grid-template-columns: 1fr 80px;            
@@ -393,11 +401,11 @@
                             </div>
                             <div className="data">
                                 <div><span><i className="fas fa-square"> </i>Especialidade:</span><input type="text" name="especialidade" defaultValue={especialidade} /></div>                   
-                                <div><span><i className="fas fa-square"> </i>Vida:</span><input type="text" name="vida" defaultValue={vida} /></div>
-                                <div><span><i className="fas fa-square"> </i>Defesa:</span><input type="text" name="defesa" defaultValue={defesa} /></div>
-                                <div><span><i className="fas fa-square"> </i>Dano:</span><input type="text" name="dano" defaultValue={dano} /></div>
-                                <div><span><i className="fas fa-square"> </i>Velocidade de ataque:</span><input type="text" name="velocidade_ataque" defaultValue={velocidade_ataque} /></div>
-                                <div><span><i className="fas fa-square"> </i>Velocidade de movimento:</span><input type="text" name="velocidade_movimento" defaultValue={velocidade_movimento} /></div>
+                                <div><span><i className="fas fa-square"> </i>Vida:</span><input type="number" name="vida" min="0" max="10000" defaultValue={vida} /></div>
+                                <div><span><i className="fas fa-square"> </i>Defesa:</span><input type="number" name="defesa" min="0" max="10000" defaultValue={defesa} /></div>
+                                <div><span><i className="fas fa-square"> </i>Dano:</span><input type="number" name="dano" min="0" max="10000" defaultValue={dano} /></div>
+                                <div><span><i className="fas fa-square"> </i>Velocidade de ataque:</span><input type="number" name="velocidade_ataque" min="0" max="10000" defaultValue={velocidade_ataque} /></div>
+                                <div><span><i className="fas fa-square"> </i>Velocidade de movimento:</span><input type="number" step="0.01" min="0" max="10000" name="velocidade_movimento" defaultValue={velocidade_movimento} /></div>
                             </div>
                         </form>
                         { cardState == 'add' || cardState == 'edit'
