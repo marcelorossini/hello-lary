@@ -1,6 +1,7 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <style>
             @font-face {
                 font-family: 'GelPenUprightLight';
@@ -329,7 +330,7 @@
                     // Envia para o laravel
                     const response = await axios({
                         method: 'post',
-                        url: `/api/heroes/${id}`,
+                        url: `/api/heroes${id != '' ? '/' : ''}${id}`,
                         data: formData,
                         config: { headers: {'Content-Type': 'multipart/form-data' }}
                     });
