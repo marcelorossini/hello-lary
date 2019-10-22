@@ -55,8 +55,14 @@ class HeroesController extends Controller
     // Deleta registro
     public function delete(Request $request, $id) {
         try {
-            $hero = Hero::find($id);
+            // Exclui do banco
+            $hero = Hero::find($id);            
             $hero->delete();
+            // Exclui a imagem
+            $file = public_path('/img/heroes/'.$hero->thumbnail);
+            if (file_exists($file)) {
+                unlink($file);
+            }
         } catch (\Exception $e) {
             return response()->json(['status' => 'error','message' => 'Não foi possivel deletar o guerreiro!']);
         }       

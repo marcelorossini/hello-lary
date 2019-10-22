@@ -139,8 +139,7 @@
             }                                                    
             .hero .data {
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
-		        grid-template-rows:  repeat(4, 1fr);     
+		        grid-template-rows: repeat(4, 1fr);     
                 padding-top: 10px;           
             }  
             .hero .data > div {
