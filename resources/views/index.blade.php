@@ -5,8 +5,9 @@
         <link rel="stylesheet" type="text/css" href="./css/font-awesome/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="./css/app.css">
     </head>
-    <body>
+    <body>        
         <header class="container">
+            <a href="{{ url('/logout') }}"> <div class="logout"><i class="fas fa-sign-out-alt"></i> Sair</div></a>
             <div class="card lary">
                 <div>
                     <img src="./img/heroes/lary.jpg">

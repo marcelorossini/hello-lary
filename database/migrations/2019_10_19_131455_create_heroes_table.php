@@ -10,14 +10,13 @@ class CreateHeroesTable extends Migration
     {
         Schema::create('heroes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
-            $table->string('tipo');
-            $table->string('especialidade')->nullable();
-            $table->integer('vida')->nullable();
-            $table->integer('defesa')->nullable();
-            $table->integer('dano')->nullable();
-            $table->float('velocidade_ataque',6,2)->nullable();
-            $table->float('velocidade_movimento',6,2)->nullable();
+            $table->string('name');
+            $table->integer('type')->references('id')->on('heroes_types');
+            $table->integer('life')->nullable();
+            $table->integer('defense')->nullable();
+            $table->integer('damage')->nullable();
+            $table->float('attack_speed',10,2)->nullable();
+            $table->float('movement_speed',10,2)->nullable();
             $table->string('thumbnail')->nullable();
             $table->timestamps();
           });
@@ -25,6 +24,6 @@ class CreateHeroesTable extends Migration
 
     public function down()
     {
-        Schema::drop('heroes');
+        Schema::dropIfExists('heroes');
     }
 }

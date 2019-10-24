@@ -53,13 +53,71 @@ const AddCard = (props) => {
     )
 }    
 
+// Selecionar o tipo 
+const SelectType = (props) => {
+    // Guarda lista com os tipos
+    const [types, setTypes] = React.useState([]);
+
+    // Ao abrir atualiza 
+    React.useEffect(() => {
+        refreshTypes();                                        
+    },[]);                
+
+    // Atualiza os tipos dos herois
+    async function refreshTypes() {
+        const types = await axios.get('/api/heroes/types');
+        setTypes(types.data);
+    };  
+
+    return (
+        <select name="type" >
+            {types.map((type) => (
+                <option key={type.id} selected={props.value == type.id ? "selected" : ""} value={type.id}>{type.name}</option> 
+            ))}            
+        </select>                       
+    )
+}    
+
+const SelectSkills = (props) => {
+    // Guarda lista com os tipos
+    const [skills, setSkills] = React.useState([]);
+    const [savedSkills, setSavedSkills] = React.useState([]);
+ 
+    // Ao abrir atualiza 
+    React.useEffect(() => {
+        refreshSkills();  
+        // Skils salvas   
+        if (props.value) {
+            const idsSkills = props.value.map(item => {
+                return item.id;
+            }); 
+            setSavedSkills(idsSkills);
+        }                   
+    },[]);                
+
+    // Atualiza os tipos dos herois
+    async function refreshSkills() {
+        const skills = await axios.get('/api/heroes/skills');
+        setSkills(skills.data);
+    };  
+
+    return (
+        <select name="skills[]" multiple size={skills.length}>
+            {skills.map((skill) => (
+                <option key={skill.id} selected={savedSkills.includes(skill.id) ? "selected" : ""} value={skill.id}>{skill.name}</option> 
+            ))}            
+        </select>                       
+    )
+}    
+
+
 // Dados do heroi
 const HeroForm = (props) => {
     // Estado do form, vazio = default, edit = edição
     const [cardState, setCardState] = React.useState(props.cardState || '');
     
     // Pega dados do json
-    const { id = '', thumbnail = '', nome , tipo, especialidade, vida, defesa, dano, velocidade_ataque, velocidade_movimento } = props.json || {};
+    const { id = '', thumbnail = '', name , type, skills, life, defense, damage, attack_speed, movement_speed } = props.json || {};
     
     // Ação do botão editar
     const handleEdit = () => {           
@@ -74,7 +132,7 @@ const HeroForm = (props) => {
     // Ação do botão delete
     const handleDelete = async () => {   
         // Pergunta antes de excluir
-        if (confirm(`Deseja excluir ${nome} o ${tipo}?`)) {
+        if (confirm(`Deseja excluir ${name} o ${type}?`)) {
             // Tenta excluir
             const response = await axios.delete(`/api/heroes/${id}`);
             // Verifica se houve erros
@@ -102,7 +160,13 @@ const HeroForm = (props) => {
 
         // Verifica se houve erros
         if (response.data.status == 'error') {
-            alert(response.data.message);
+            // Mostra os campos com erros
+            let message = response.data.message;  
+            let texto = '';
+            for (var field in message) {
+                texto += `-${message[field]}\r\n`;
+            }
+            alert(texto);
             return;
         } else if (response.data.status == 'warning') {
             alert(response.data.message);
@@ -145,24 +209,25 @@ const HeroForm = (props) => {
                 <input type="hidden" name="_token" defaultValue="{{ csrf_token() }}" /> 
                 <input type="file" name="thumbnail" accept="image/*" onChange={handleChangeImg} />
                 <div className="header">
-                    <div><input type="text" name="nome" placeholder="Nome" defaultValue={nome} /></div>
+                    <div><input type="text" name="name" placeholder="Nome" defaultValue={name} /></div>
                     <div>
                         {   thumbnail != null || cardState == 'add' || cardState == 'edit'
                             ? (
-                                <img src={thumbnail || '' != '' ? `./img/heroes/${thumbnail}` : './img/others/upload.png'} alt="" onClick={handleClickImg} />
+                                <img src={thumbnail || '' != '' ? thumbnail : './img/others/upload.png'} alt="" onClick={handleClickImg} />
                             )
                             : (<span />)
                         }                                    
                     </div>
-                    <div><input type="text" name="tipo" placeholder="Tipo" defaultValue={tipo} /></div>                    
+                    <div><SelectType value={type} /></div>                    
                 </div>
                 <div className="data">
-                    <div><span><i className="fas fa-square"> </i>Especialidade:</span><input type="text" name="especialidade" defaultValue={especialidade} /></div>                   
-                    <div><span><i className="fas fa-square"> </i>Vida:</span><input type="number" name="vida" min="0" max="10000" defaultValue={vida} /></div>
-                    <div><span><i className="fas fa-square"> </i>Defesa:</span><input type="number" name="defesa" min="0" max="10000" defaultValue={defesa} /></div>
-                    <div><span><i className="fas fa-square"> </i>Dano:</span><input type="number" name="dano" min="0" max="10000" defaultValue={dano} /></div>
-                    <div><span><i className="fas fa-square"> </i>Velocidade de ataque:</span><input type="number" name="velocidade_ataque" min="0" max="10000" defaultValue={velocidade_ataque} /></div>
-                    <div><span><i className="fas fa-square"> </i>Velocidade de movimento:</span><input type="number" step="0.01" min="0" max="10000" name="velocidade_movimento" defaultValue={velocidade_movimento} /></div>
+                    <div><span><i className="fas fa-square"> </i>Especialidades:</span></div>                   
+                    <div><SelectSkills value={skills} /></div>
+                    <div><span><i className="fas fa-square"> </i>Vida:</span><input type="number" name="life" min="0" max="10000" defaultValue={life} /></div>
+                    <div><span><i className="fas fa-square"> </i>Defesa:</span><input type="number" name="defense" min="0" max="10000" defaultValue={defense} /></div>
+                    <div><span><i className="fas fa-square"> </i>Dano:</span><input type="number" name="damage" min="0" max="10000" defaultValue={damage} /></div>
+                    <div><span><i className="fas fa-square"> </i>Velocidade de ataque:</span><input type="number" name="attack_speed" min="0" max="10000" defaultValue={attack_speed} /></div>
+                    <div><span><i className="fas fa-square"> </i>Velocidade de movimento:</span><input type="number" step="0.01" min="0" max="10000" name="movement_speed" defaultValue={movement_speed} /></div>
                 </div>
             </form>
             { cardState == 'add' || cardState == 'edit'

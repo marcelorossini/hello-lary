@@ -21,5 +21,10 @@ Route::prefix('heroes')->group(function () {
     Route::post('{id?}','HeroesController@store');    
     // Exclui o heroi
     Route::delete('{id}','HeroesController@delete');    
+
+    // Exibe todas os tipos dos herois
+    Route::get('/types','TypesController@index');    
+    // Exibe todas as especialidades dos herois
+    Route::get('/skills','SkillsController@index');    
 });
 

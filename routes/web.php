@@ -10,8 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Home
-Route::get('/', function () {
-    return view('index');
+// Manda para o login, se já logado vai para home
+Route::get('',function() {
+    return redirect('login');
 });
+
+// Rotas autenticação
+Auth::routes();
+
+// Rota principal
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');

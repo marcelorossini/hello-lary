@@ -7,36 +7,33 @@ class HeroesSeeder extends Seeder
     public function run()
     {
         DB::table('heroes')->insert([
-            'nome' => 'STEVEN',
-            'tipo' => 'Mago',
-            'especialidade' => 'Magia Branca',
-            'vida' => 2900,
-            'defesa' => 200,
-            'dano' => 340,
-            'velocidade_ataque' => 1.3,
-            'velocidade_movimento' => 320,
+            'name' => 'STEVEN',
+            'type' => 1,
+            'life' => 2900,
+            'defense' => 200,
+            'damage' => 340,
+            'attack_speed' => 1.3,
+            'movement_speed' => 320,
             'thumbnail' => 'steven.gif'
         ]);
         DB::table('heroes')->insert([
-            'nome' => 'BRAIAN',
-            'tipo' => 'Arqueiro',
-            'especialidade' => 'Ataque à distância',
-            'vida' => 2400,
-            'defesa' => 190,
-            'dano' => 330,
-            'velocidade_ataque' => 1.8,
-            'velocidade_movimento' => 320,
+            'name' => 'BRAIAN',
+            'type' => 2,
+            'life' => 2400,
+            'defense' => 190,
+            'damage' => 330,
+            'attack_speed' => 1.8,
+            'movement_speed' => 320,
             'thumbnail' => 'braian.gif'
         ]);
         DB::table('heroes')->insert([
-            'nome' => 'GRUNTAR',
-            'tipo' => 'Cavaleiro',
-            'especialidade' => 'Ataque em área',
-            'vida' => 3700,
-            'defesa' => 240,
-            'dano' => 190,
-            'velocidade_ataque' => 1.4,
-            'velocidade_movimento' => 345,
+            'name' => 'GRUNTAR',
+            'type' => 3,
+            'life' => 3700,
+            'defense' => 240,
+            'damage' => 190,
+            'attack_speed' => 1.4,
+            'movement_speed' => 345,
             'thumbnail' => 'gruntar.gif'
         ]);                
     }
