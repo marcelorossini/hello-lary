@@ -79,7 +79,7 @@ const SelectType = (props) => {
 }    
 
 const SelectSkills = (props) => {
-    // Guarda lista com os tipos
+    // Guarda lista com as skills
     const [skills, setSkills] = React.useState([]);
     const [savedSkills, setSavedSkills] = React.useState([]);
  
@@ -211,11 +211,18 @@ const HeroForm = (props) => {
                 <div className="header">
                     <div><input type="text" name="name" placeholder="Nome" defaultValue={name} /></div>
                     <div>
-                        {   thumbnail != null || cardState == 'add' || cardState == 'edit'
+                        {   thumbnail != ''
                             ? (
-                                <img src={thumbnail || '' != '' ? thumbnail : './img/others/upload.png'} alt="" onClick={handleClickImg} />
+                                <img src={thumbnail} alt="" onClick={handleClickImg} />
                             )
-                            : (<span />)
+                            : 
+                                cardState == 'add' || cardState == 'edit'
+                                ? (
+                                    <img src="./img/others/upload.png" alt="" onClick={handleClickImg} />
+                                )
+                                : (
+                                    <span />
+                                )
                         }                                    
                     </div>
                     <div><SelectType value={type} /></div>                    

@@ -16,9 +16,19 @@ body {
 header {
     padding: 20px;
 }
+.login-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .login {
-    width: 260px;
-    margin-top: 200px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
     padding: 40px;
 }
 .login label {
@@ -141,6 +151,9 @@ main > div {
     padding-left: 20px;
     cursor: pointer;
 }    
+option:checked, select[multiple]:focus option:checked {
+    background: #ba8a5385 linear-gradient(0deg, #ba8a5385 0%, #ba8a5385 100%);
+}
 .hero input, .hero select {
     pointer-events: none;
 }   
