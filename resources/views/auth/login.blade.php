@@ -11,21 +11,17 @@
                 @csrf
                 <div>
                     <label for="email" >E-mail</label>
-                    <br>
                     <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
-                    <br>
                     @if ($errors->has('email'))
-                        <h3>{{ $errors->first('email') }}</h3>
+                        <h4>{{ $errors->first('email') }}</h4>
                     @endif
                 </div>
 
                 <div>
                     <label for="password">Senha</label>
-                    <br>
                     <input id="password" type="password" name="password" required>
-                    <br>
                     @if ($errors->has('password'))
-                        <h3>{{ $errors->first('password') }}</h3>
+                        <h4>{{ $errors->first('password') }}</h4>
                     @endif
                 </div>
                 <button type="submit">

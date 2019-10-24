@@ -8,7 +8,7 @@ class Type extends Model
 {
     protected $table = 'hero_types';
 
-    public $timestamps = false;
-
     protected $fillable = ['nome'];
+
+    public $timestamps = false;
 }
