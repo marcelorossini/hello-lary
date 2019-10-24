@@ -5,6 +5,10 @@ App para organização do Clã do Lary.
 
 Demo: [http://159.89.237.125/](http://159.89.237.125/)
 
+Usuário: teste@newway.com.br
+
+Senha: password
+
 ## Instalação
 
  - Clone o repositório
